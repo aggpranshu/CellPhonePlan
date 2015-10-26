@@ -59,28 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    /*  Button messageButton =(Button)findViewById(R.id.messageButton);
-        messageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent i =new Intent(MainActivity.this, MsgLogStats.class);
-                startActivity(i);
-            }
-        });
-*/
-
-
-        /*submit = (Button) findViewById(R.id.submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CallLogStats.class);
-                intent.putIntegerArrayListExtra("Date", );
-                startActivity(intent);
-            }
-        });
-*/
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
         serviceProvider = (TextView) findViewById(R.id.phoneCarrier);
 

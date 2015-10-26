@@ -33,7 +33,7 @@ public class CallLogStats extends Activity {
     private long payPerSecondBill = 0, payPerMinuteBill = 0;
     private int smsCount = 0;
     String[] projectionMesg = new String[]{
-            "type"
+            "type","date"
     };
 
     protected void onCreate(Bundle savedInstanceState) {
