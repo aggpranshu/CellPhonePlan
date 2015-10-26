@@ -12,19 +12,23 @@ public class CallLogs {
     private int durationDay;
     private int durationNight;
     private Date date;
+    private String networkProvider;
+    private String callType;
 
     CallLogs(String number, String duration, Date date) {
         this.number = Long.valueOf(number);
         this.date = date;
+        this.networkProvider = "Vodafone";
+        this.callType = "local";
     }
 
-    public int getDurationDay() {
-        return durationDay;
-    }
+    public String getNetworkProvider() { return networkProvider; }
 
-    public void setDurationDay(int durationDay) {
-        this.durationDay = durationDay;
-    }
+    public void setNetworkProvider(String networkProvider) { this.networkProvider = networkProvider; }
+
+    public int getDurationDay() { return durationDay; }
+
+    public void setDurationDay(int durationDay) { this.durationDay = durationDay; }
 
     public int getDurationNight() {
         return durationNight;
@@ -42,13 +46,13 @@ public class CallLogs {
         this.number = number;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    public String getCallType() { return callType; }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    public void setCallType(String callType) { this.callType = callType; }
+
+    public Date getDate() { return date; }
+
+    public void setDate(Date date) { this.date = date; }
 
     public void setDuration(int duration, Date d) {
 
@@ -68,5 +72,6 @@ public class CallLogs {
         } else
             durationDay += duration;
     }
+
 
 }

@@ -13,9 +13,10 @@
         android:id="@+id/linearLayoutMesg"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:layout_below="@+id/linearLayoutPhoneCall"
         android:gravity="center"
-        android:weightSum="50">
+        android:weightSum="50"
+        android:layout_above="@+id/linearLayoutDetails"
+        android:layout_alignParentLeft="true">
 
         <ScrollView
             android:id="@+id/scrollViewMesg"
@@ -41,7 +42,8 @@
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:gravity="center"
-        android:weightSum="50">
+        android:weightSum="50"
+        android:layout_above="@+id/linearLayoutMesg">
 
         <ScrollView
             android:id="@+id/scrollView"
@@ -65,9 +67,10 @@
         android:id="@+id/linearLayoutDetails"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:layout_below="@+id/linearLayoutMesg"
         android:gravity="center"
-        android:weightSum="50">
+        android:weightSum="50"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
 
         <TextView
             android:id="@+id/detailsTextView"
