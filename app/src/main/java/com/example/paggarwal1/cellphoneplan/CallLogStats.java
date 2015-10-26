@@ -6,7 +6,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CallLog;
+import android.util.Log;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -20,7 +24,7 @@ import java.util.Map;
 public class CallLogStats extends Activity {
 
 
-    TextView mesgCount, billDetails;
+    TextView mesgCount, billDetails , listOfPlans;
     StringBuffer stringBuffer = new StringBuffer();
     HashMap<String, CallLogs> map = new LinkedHashMap<String, CallLogs>();
     long dayDuration = 0, nightDuration = 0, countGreaterThan30 = 0, countLessThan30 = 0;
@@ -33,13 +37,14 @@ public class CallLogStats extends Activity {
     private long payPerSecondBill = 0, payPerMinuteBill = 0;
     private int smsCount = 0;
     String[] projectionMesg = new String[]{
-            "type"
+            "type" , "date"
     };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listOfPlans = (TextView) findViewById(R.id.textview1);
         mesgCount = (TextView) findViewById(R.id.mesgTextView);
         billDetails = (TextView) findViewById(R.id.detailsTextView);
 
@@ -115,6 +120,15 @@ public class CallLogStats extends Activity {
                     payPerMinuteBill += (Math.ceil(Integer.valueOf(duration) / 60)) * 35;
                 }
             }
+        }
+
+        PlanGenerator p = new PlanGenerator(payPerSecondBill,payPerMinuteBill);
+        try {
+
+            listOfPlans.setText(p.suggestPlan(countLessThan30,countGreaterThan30).toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         stringBuffer.append("\nPPM charges  " + payPerMinuteBill + "\nPPS chargres  " + payPerSecondBill + "\ncalls less than 30 secs  " + countLessThan30 +
