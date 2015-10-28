@@ -3,6 +3,7 @@ package com.example.paggarwal1.cellphoneplan;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by PAggarwal1 on 9/30/2015.
@@ -15,6 +16,8 @@ public class CallLogs {
     private String networkProvider;
     private String callType;
 
+
+    private int duration;
     CallLogs(String number, String duration, Date date) {
         this.number = Long.valueOf(number);
         this.date = date;
@@ -53,6 +56,9 @@ public class CallLogs {
     public Date getDate() { return date; }
 
     public void setDate(Date date) { this.date = date; }
+
+
+
 
     public void setDuration(int duration, Date d) {
 

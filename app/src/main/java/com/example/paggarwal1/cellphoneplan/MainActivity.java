@@ -24,31 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
 
-        String jsonData="{\n" +
-                "    \"country_code\": \"IN\",\n" +
-                "    \"phone_number\": \"+919999599078\",\n" +
-                "    \"national_format\": \"099995 99078\",\n" +
-                "    \"url\": \"https://lookups.twilio.com/v1/PhoneNumber/+919999599078\",\n" +
-                "    \"carrier\": {\n" +
-                "        \"type\": \"mobile\",\n" +
-                "        \"error_code\": null,\n" +
-                "        \"mobile_network_code\": \"11\",\n" +
-                "        \"mobile_country_code\": \"404\",\n" +
-                "        \"name\": \"Vodafone Essar South Ltd\"\n" +
-                "    }\n" +
-                "}\n";
-
-       try {
-            JSONObject jsonObject=new JSONObject(jsonData);
-            JSONObject obj= jsonObject.getJSONObject("carrier");
-            String sampleString = obj.getString("name");
-            Log.i("Name of carrier",obj.getString("name")+"  "+obj.getString("mobile_country_code"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
         dateButton = (Button) findViewById(R.id.dateButton);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override

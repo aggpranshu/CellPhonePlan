@@ -12,8 +12,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -27,6 +29,11 @@ public class CallLogStats extends Activity {
     TextView mesgCount, billDetails , listOfPlans;
     StringBuffer stringBuffer = new StringBuffer();
     HashMap<String, CallLogs> map = new LinkedHashMap<String, CallLogs>();
+    HashMap<String, ArrayList> callRatesPPM = new LinkedHashMap<String, ArrayList>();
+    HashMap<String, ArrayList> callRatesPPS = new LinkedHashMap<String, ArrayList>();
+    HashMap<String, Float>billForPlans=new HashMap<String, Float>();
+
+    HashMap<String,String> billRates = new HashMap<String, String>();
     long dayDuration = 0, nightDuration = 0, countGreaterThan30 = 0, countLessThan30 = 0;
 
     String[] projectionCall = new String[]{
@@ -81,6 +88,8 @@ public class CallLogStats extends Activity {
 
     public void CallRecords(Date d) {
 
+
+        PlanGenerator p = new PlanGenerator();
         String selection = "type = 2";
         ContentResolver resolver = getApplicationContext().getContentResolver();
         Cursor curCall = resolver.query(CallLog.Calls.CONTENT_URI, projectionCall, selection, null, null);
@@ -122,10 +131,11 @@ public class CallLogStats extends Activity {
             }
         }
 
-        PlanGenerator p = new PlanGenerator(payPerSecondBill,payPerMinuteBill);
-        try {
 
-            listOfPlans.setText(p.suggestPlan(countLessThan30,countGreaterThan30).toString());
+
+        try {
+            p.minimumRate();
+          //  listOfPlans.setText(p.suggestPlan(countLessThan30,countGreaterThan30).toString());
 
         } catch (JSONException e) {
             e.printStackTrace();

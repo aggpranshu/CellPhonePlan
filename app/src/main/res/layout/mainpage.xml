@@ -18,10 +18,10 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/phoneCarrier"
+        android:text="Pick a date"
+        android:layout_below="@+id/phoneNumber"
         android:layout_alignRight="@+id/phoneCarrier"
-        android:layout_centerVertical="true"
-        android:text="Pick a date" />
+        android:layout_marginTop="56dp" />
 
     <Button
         android:id="@+id/submit"
@@ -47,9 +47,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="messageFetch"
-        android:id="@+id/messageButton"
-        android:layout_above="@+id/submit"
-        android:layout_centerHorizontal="true" />
+        android:text="Number of Days for the plan to be suggested"
+        android:id="@+id/planDays"
+        android:layout_below="@+id/dateButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp" />
 
 </RelativeLayout>
