@@ -100,19 +100,21 @@ public class CallLogs {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
-        Date EndTime = null;
+        Date NightTimeStart = null, NightTimeEnd=null;
         Date CurrentTime = null;
         try {
-            EndTime = dateFormat.parse("23:00");
+            NightTimeStart = dateFormat.parse("23:00");
+            NightTimeEnd = dateFormat.parse("7:00");
             CurrentTime = dateFormat.parse(dateFormat.format(d));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        if (CurrentTime.after(EndTime)) {
+        if (CurrentTime.after(NightTimeStart)||CurrentTime.before( NightTimeEnd)) {
             durationNight += duration;
         } else
             durationDay += duration;
+
     }
 
 

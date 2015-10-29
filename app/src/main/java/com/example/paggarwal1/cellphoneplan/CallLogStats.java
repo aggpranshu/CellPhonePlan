@@ -10,12 +10,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,16 +23,16 @@ import java.util.Map;
  */
 public class CallLogStats extends Activity {
 
-    double durationLessThan30, countCall;
+    double durationLessThan30, callGreaterthan30s;
     TextView mesgCount, billDetails, listOfPlans;
     StringBuffer stringBuffer = new StringBuffer();
     HashMap<String, CallLogs> map = new LinkedHashMap<String, CallLogs>();
     HashMap<String, Double> billForPlans = new HashMap<String, Double>();
 
 
-
     HashMap<String, String> billRates = new HashMap<String, String>();
-    long dayDuration = 0, nightDuration = 0, countGreaterThan30 = 0, countLessThan30 = 0;
+    long dayDuration = 0, nightDuration = 0, countGreaterThan30 = 0, countLessThan30 = 0, callCount = 0;
+
 
     String[] projectionCall = new String[]{
             CallLog.Calls.DATE,
@@ -43,7 +40,7 @@ public class CallLogStats extends Activity {
             CallLog.Calls.DURATION,
             CallLog.Calls.TYPE};
     private long payPerSecondBill = 0, payPerMinuteBill = 0;
-    private int smsCount = 0;
+    private int smsCount = 0, count = 0;
     String[] projectionMesg = new String[]{
             "type", "date"
     };
@@ -104,6 +101,14 @@ public class CallLogStats extends Activity {
 
 
             if (callDate.compareTo(d) > 0 && Integer.valueOf(duration) > 0) {
+
+                ++count;
+                if (Integer.valueOf(duration) < 60) {
+                    ++callCount;
+                } else {
+                    callCount += Math.ceil(Double.valueOf(duration) / 60);
+                }
+
                 if (number.length() > 10) {
                     truncatedNumber = number.substring((Math.abs(10 - number.length())), number.length());
                 } else
@@ -122,6 +127,7 @@ public class CallLogStats extends Activity {
                 }
             }
         }
+        Log.i("rajat", " no. of calls " + String.valueOf(count)+"   "+String.valueOf(d)+"  \ntotal minutes  "+callCount);
 
 
         try {
@@ -140,11 +146,19 @@ public class CallLogStats extends Activity {
             dayDuration += callLogs.getDurationDay();
             nightDuration += callLogs.getDurationNight();
             durationLessThan30 += callLogs.getDurationLessThan30();
-            countCall += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30()) / 60);
+            callGreaterthan30s += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30()) / 60);
         }
 
         stringBuffer.append("\nDuration Day: " + dayDuration + "s\nDuration Night: " + nightDuration +
-        "\nCall duration less than 30s: " + durationLessThan30 + "\nCalls more than 30s: " + countCall );
+                "\nCall duration less than 30s: " + durationLessThan30 + "\nCalls more than 30s: " + callGreaterthan30s + "\nDate Entered: " + d);
         billDetails.setText(stringBuffer.toString());
+    }
+
+    public long getCallCount() {
+        return callCount;
+    }
+
+    public void setCallCount(long callCount) {
+        this.callCount = callCount;
     }
 }

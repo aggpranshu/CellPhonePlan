@@ -28,8 +28,10 @@ public class PlanGenerator {
     private ArrayList<String> list;
 
 
+    PlanGenerator() {
+    }
 
-    PlanGenerator(){};
+    ;
 
     public HashMap<String, ArrayList> getCallRatesPPM() {
         return callRatesPPM;
@@ -61,37 +63,41 @@ public class PlanGenerator {
         this.moreThan30 = moreThan30;*/
     }
 
-    public HashMap<String,Double> minimumRate(HashMap<String,CallLogs> map) throws JSONException {
-         JSONObject obj;
-        int durationLessThan30=0,durationMoreThan30=0;
-        double countCall = 0.0;
+    public HashMap<String, Double> minimumRate(HashMap<String, CallLogs> map) throws JSONException {
+        JSONObject obj;
+        int durationLessThan30 = 0, durationMoreThan30 = 0;
+        double countCall = 0.0, totalDuration;
         Double bill;
+
+        CallLogStats callLogStats = new CallLogStats();
 
         PlanGeneratorList object = new PlanGeneratorList();
         listOfPlans = object.listOfPlans("28");
-
+        totalDuration = callLogStats.dayDuration + callLogStats.nightDuration;
         for (Map.Entry<String, CallLogs> entry : map.entrySet()) {
             String key = entry.getKey();
             CallLogs callLogs = entry.getValue();
 
             durationLessThan30 += Integer.valueOf(callLogs.getDurationLessThan30());
 
-            countCall += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30())/60);
+            countCall += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30()) / 60);
 
         }
-
+     //   long NoOfCalls=callLogs.getCallCount();
         Iterator iterator = listOfPlans.iterator();
-        while(iterator.hasNext()){
-            bill=0.0;
-          obj = (JSONObject)iterator.next();
+        while (iterator.hasNext()) {
+            bill = 0.0;
+
+          //  Log.i("rajat", String.valueOf(NoOfCalls));
+            obj = (JSONObject) iterator.next();
+
             if (obj.has("plan_type") && obj.getString("plan_type").equals("PPS")) {
-                bill += Double.valueOf(obj.getString("call_rate"))*durationLessThan30;
-            }
-            else if (obj.has("plan_type") && obj.getString("plan_type").equals("PPM")) {
-                bill += Integer.valueOf(obj.getString("call_rate"))*countCall;
+                bill += Double.valueOf(obj.getString("call_rate")) * totalDuration;
+            } else if (obj.has("plan_type") && obj.getString("plan_type").equals("PPM")) {
+             //   bill += Integer.valueOf(obj.getString("call_rate")) * NoOfCalls;
             }
 
-            billsPlan.put(obj.getString("id"),bill);
+            billsPlan.put(obj.getString("id"), bill);
         }
 
         return billsPlan;
