@@ -1,5 +1,6 @@
 package com.example.paggarwal1.cellphoneplan;
 
+import android.telecom.Call;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -8,7 +9,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by PAggarwal1 on 10/26/2015.
@@ -23,6 +26,10 @@ public class PlanGenerator {
     private String minPPSRate;
     private String minPPMRate;
     private ArrayList<String> list;
+
+
+
+    PlanGenerator(){};
 
     public HashMap<String, ArrayList> getCallRatesPPM() {
         return callRatesPPM;
@@ -40,12 +47,11 @@ public class PlanGenerator {
         this.callRatesPPS = callRatesPPS;
     }
 
+    private HashMap<String, Double> billsPlan = new HashMap<String, Double>();
     private HashMap<String, ArrayList> callRatesPPM = new HashMap<String, ArrayList>();
     private HashMap<String, ArrayList> callRatesPPS = new HashMap<String, ArrayList>();
-    private ArrayList<String> listOfRates = new ArrayList<String>();
+    private ArrayList<JSONObject> listOfPlans = new ArrayList<JSONObject>();
     private String typeOfPlan;
-
-    PlanGenerator(){};
 
     PlanGenerator(Long ppsBill, Long ppmBill) {
         this.ppmBill = ppmBill;
@@ -55,68 +61,40 @@ public class PlanGenerator {
         this.moreThan30 = moreThan30;*/
     }
 
-   /* public Long getMinimumRates() throws JSONException {
+    public HashMap<String,Double> minimumRate(HashMap<String,CallLogs> map) throws JSONException {
+         JSONObject obj;
+        int durationLessThan30=0,durationMoreThan30=0;
+        double countCall = 0.0;
+        Double bill;
 
-        JSONObject jsonResponse;
-        jsonResponse = new JSONObject(ListOfStrings.vodafoneList);
-        JSONArray jsonData = jsonResponse.getJSONArray("data");
+        PlanGeneratorList object = new PlanGeneratorList();
+        listOfPlans = object.listOfPlans("28");
 
-        for(int i = 0 ; i< jsonData.length(); i++){
-            JSONObject jsonObject = jsonData.getJSONObject(i);
+        for (Map.Entry<String, CallLogs> entry : map.entrySet()) {
+            String key = entry.getKey();
+            CallLogs callLogs = entry.getValue();
 
-            if(jsonObject.getString("plan_type").equals("PPM")){
-                if(Integer.valueOf(jsonObject.getString("call_rate"))<Integer.valueOf(minPPMRate))
-                minPPMRate = jsonObject.getString("call_rate");
+            durationLessThan30 += Integer.valueOf(callLogs.getDurationLessThan30());
 
-            }
-            else if (jsonObject.getString("plan_type").equals("PPS")){
-
-            }
-            else
-            {
-                continue;
-            }
-
+            countCall += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30())/60);
 
         }
 
-        return Long.valueOf(1);
-    }*/
-
-    public void minimumRate() throws JSONException {
-
-        JSONObject jsonResponse;
-        jsonResponse = new JSONObject(ListOfStrings.vodafoneList);
-        JSONArray jsonData = jsonResponse.getJSONArray("data");
-
-        for (int i = 0; i < jsonData.length(); i++) {
-            JSONObject jsonObject = jsonData.getJSONObject(i);
-
-            if (jsonObject.has("plan_type") && jsonObject.getString("plan_type").equals("PPM") && jsonObject.getString("recharge_validity").equals("28 Days")) {
-                if (callRatesPPM.containsKey(jsonObject.getString("call_rate"))) {
-                    list = callRatesPPM.get(jsonObject.getString("call_rate"));
-                } else {
-                    list = new ArrayList<>();
-                }
-                list.add(jsonObject.getString("recharge_value"));
-                callRatesPPM.put(jsonObject.getString("call_rate"), list);
-            } else if (jsonObject.has("plan_type") && jsonObject.getString("plan_type").equals("PPS") && jsonObject.getString("recharge_validity").equals("28 Days")) {
-                if (callRatesPPS.containsKey(jsonObject.getString("call_rate"))) {
-                    list = callRatesPPS.get(jsonObject.getString("call_rate"));
-
-                } else {
-                    list = new ArrayList<>();
-                }
-                list.add(jsonObject.getString("recharge_value"));
-                callRatesPPS.put(jsonObject.getString("call_rate"), list);
-
+        Iterator iterator = listOfPlans.iterator();
+        while(iterator.hasNext()){
+            bill=0.0;
+          obj = (JSONObject)iterator.next();
+            if (obj.has("plan_type") && obj.getString("plan_type").equals("PPS")) {
+                bill += Double.valueOf(obj.getString("call_rate"))*durationLessThan30;
             }
+            else if (obj.has("plan_type") && obj.getString("plan_type").equals("PPM")) {
+                bill += Integer.valueOf(obj.getString("call_rate"))*countCall;
+            }
+
+            billsPlan.put(obj.getString("id"),bill);
         }
 
-        setCallRatesPPM(callRatesPPM);
-        setCallRatesPPS(callRatesPPS);
-        Log.i("callRates", callRatesPPM.toString());
-        Log.i("callRates", callRatesPPS.toString());
+        return billsPlan;
     }
 
     public void typeOfPlan() {
@@ -128,28 +106,6 @@ public class PlanGenerator {
             //do the call ratio coding here
         }
     }
-
-    /*public List suggestPlan(Long lessThan30, Long moreThan30) throws JSONException {
-        if (lessThan30 > moreThan30) {
-            typeOfPlan = "PPS";
-        } else {
-            typeOfPlan = "PPM";
-        }
-        JSONObject jsonResponse;
-        jsonResponse = new JSONObject(ListOfStrings.vodafoneList);
-        JSONArray jsonData = jsonResponse.getJSONArray("data");
-
-        for (int i = 0; i < jsonData.length(); i++) {
-            JSONObject jsonObject = jsonData.getJSONObject(i);
-            Log.i("boolean", String.valueOf(jsonObject.has("plan_type")));
-            //    Log.i("value", jsonObject.getString("plan_type"));
-            if (jsonObject.has("plan_type") && jsonObject.getString("plan_type").equals(typeOfPlan)) {
-                list.add(jsonObject.toString(4));
-                Log.i("hello", list.toString());
-            }
-        }
-        return list;
-    }*/
 
 }
 

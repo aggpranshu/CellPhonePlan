@@ -15,7 +15,6 @@ public class DummyClass {
     public List<String> list20 = new ArrayList<String>();
     public List<String> list60 = new ArrayList<String>();
 
-
     DummyClass() {
         list28.add("9275547");
         list28.add("13088470");

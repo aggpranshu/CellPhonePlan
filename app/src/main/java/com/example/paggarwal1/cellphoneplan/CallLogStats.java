@@ -20,20 +20,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 //added a sample comment1234567899SampleComment
+
 /**
  * Created by PAggarwal1 on 9/11/2015.
  */
 public class CallLogStats extends Activity {
 
-
-    TextView mesgCount, billDetails , listOfPlans;
+    double durationLessThan30, countCall;
+    TextView mesgCount, billDetails, listOfPlans;
     StringBuffer stringBuffer = new StringBuffer();
     HashMap<String, CallLogs> map = new LinkedHashMap<String, CallLogs>();
-    HashMap<String, ArrayList> callRatesPPM = new LinkedHashMap<String, ArrayList>();
-    HashMap<String, ArrayList> callRatesPPS = new LinkedHashMap<String, ArrayList>();
-    HashMap<String, Float>billForPlans=new HashMap<String, Float>();
+    HashMap<String, Double> billForPlans = new HashMap<String, Double>();
 
-    HashMap<String,String> billRates = new HashMap<String, String>();
+
+
+    HashMap<String, String> billRates = new HashMap<String, String>();
     long dayDuration = 0, nightDuration = 0, countGreaterThan30 = 0, countLessThan30 = 0;
 
     String[] projectionCall = new String[]{
@@ -44,7 +45,7 @@ public class CallLogStats extends Activity {
     private long payPerSecondBill = 0, payPerMinuteBill = 0;
     private int smsCount = 0;
     String[] projectionMesg = new String[]{
-            "type" , "date"
+            "type", "date"
     };
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,7 @@ public class CallLogStats extends Activity {
                 }
                 curMesg.moveToNext();
             }
-            mesgCount.setText(String.valueOf(smsCount));
+            mesgCount.setText("Total Number of texts: " + String.valueOf(smsCount));
             curMesg.close();
         }
     }
@@ -119,31 +120,18 @@ public class CallLogStats extends Activity {
                     object.setDuration(Integer.valueOf(duration), callDate);
                     map.put(truncatedNumber, object);
                 }
-                if (Integer.valueOf(duration) < 30) {
-                    ++countLessThan30;
-                    payPerSecondBill += Integer.valueOf(duration) * 1.2;
-                    payPerMinuteBill += 35;
-                } else {
-                    ++countGreaterThan30;
-                    payPerSecondBill += Integer.valueOf(duration) * 1.2;
-                    payPerMinuteBill += (Math.ceil(Integer.valueOf(duration) / 60)) * 35;
-                }
             }
         }
 
 
-
         try {
-            p.minimumRate();
-          //  listOfPlans.setText(p.suggestPlan(countLessThan30,countGreaterThan30).toString());
+            billForPlans = p.minimumRate(map);
+            listOfPlans.setText(billForPlans.toString());
+            //  listOfPlans.setText(p.suggestPlan(countLessThan30,countGreaterThan30).toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        stringBuffer.append("\nPPM charges  " + payPerMinuteBill + "\nPPS chargres  " + payPerSecondBill + "\ncalls less than 30 secs  " + countLessThan30 +
-                "\ncalls greater than 30 secs " + countGreaterThan30);
-
         curCall.close();
 
         for (Map.Entry<String, CallLogs> entry : map.entrySet()) {
@@ -151,9 +139,12 @@ public class CallLogStats extends Activity {
             CallLogs callLogs = entry.getValue();
             dayDuration += callLogs.getDurationDay();
             nightDuration += callLogs.getDurationNight();
+            durationLessThan30 += callLogs.getDurationLessThan30();
+            countCall += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30()) / 60);
         }
 
-        stringBuffer.append("\nDuration Day " + dayDuration + "\nDuration Night " + nightDuration);
+        stringBuffer.append("\nDuration Day: " + dayDuration + "s\nDuration Night: " + nightDuration +
+        "\nCall duration less than 30s: " + durationLessThan30 + "\nCalls more than 30s: " + countCall );
         billDetails.setText(stringBuffer.toString());
     }
 }
