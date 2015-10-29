@@ -13,10 +13,9 @@
         android:id="@+id/linearLayoutMesg"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:weightSum="50"
         android:layout_below="@+id/linearLayoutPhoneCall"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:gravity="center">
 
         <ScrollView
             android:id="@+id/scrollViewMesg"
@@ -32,8 +31,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sample"
-                android:textSize="25dp"
-                android:textStyle="bold"/>
+                android:textSize="22dp"
+                android:textStyle="bold" />
 
         </ScrollView>
     </LinearLayout>
@@ -43,7 +42,7 @@
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        android:gravity="center"
+        android:gravity="left"
         android:weightSum="50">
 
         <ScrollView
@@ -59,8 +58,9 @@
                 android:id="@+id/textview1"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Hello World"
-                android:gravity="center|fill_vertical"/>
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:text="Hello World" />
         </ScrollView>
     </LinearLayout>
 
@@ -69,19 +69,19 @@
         android:id="@+id/linearLayoutDetails"
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:gravity="center"
-        android:weightSum="50"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/linearLayoutMesg">
+        android:layout_below="@+id/linearLayoutMesg"
+        android:gravity="center"
+        android:weightSum="50">
 
         <TextView
             android:id="@+id/detailsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textSize="22dp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

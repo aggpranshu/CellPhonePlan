@@ -5,24 +5,41 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Button dateButton, submit;
+    Button dateButton, planDays;
     TextView serviceProvider;
     EditText phoneNumber;
+    Spinner spinnerDuration;
+    List<String> categories = new ArrayList<String>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainpage);
+
+        categories.add("Days for plans");
+        categories.add("28 days");
+        categories.add("60 days");
+        categories.add("90 days");
+
+        spinnerDuration = (Spinner) findViewById(R.id.spinnerDuration);
+
+        serviceProvider = (TextView) findViewById(R.id.phoneCarrier);
+        TelephonyManager tMgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        serviceProvider.setText(tMgr.getNetworkOperatorName());
 
         dateButton = (Button) findViewById(R.id.dateButton);
         dateButton.setOnClickListener(new View.OnClickListener() {
@@ -34,24 +51,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        spinnerDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+            }
 
-        phoneNumber = (EditText) findViewById(R.id.phoneNumber);
-        serviceProvider = (TextView) findViewById(R.id.phoneCarrier);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        TelephonyManager tMgr = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+            }
+        });
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDuration.setAdapter(dataAdapter);
 
-        serviceProvider.setText(tMgr.getNetworkOperatorName());
-
-      /*  Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);*/
     }
 
+}
 
     /*private void initializeDate() {
         datePicker = (DatePicker) findViewById(R.id.calendarView);
@@ -88,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 */
-}
+
 
 
 

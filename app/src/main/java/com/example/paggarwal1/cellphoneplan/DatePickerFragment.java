@@ -38,9 +38,9 @@ public class DatePickerFragment extends DialogFragment
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, month,day,0,0);
         calendar.set(Calendar.YEAR, year);
+
         String formatedDate = sdf.format(calendar.getTime());
         if (calendar.getTime().before(Calendar.getInstance().getTime())) {
             diffInMilis = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();

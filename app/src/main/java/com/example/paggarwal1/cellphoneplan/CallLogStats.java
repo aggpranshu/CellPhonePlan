@@ -102,14 +102,16 @@ public class CallLogStats extends Activity {
             String date = curCall.getString(curCall.getColumnIndex(CallLog.Calls.DATE));
             Date callDate = new Date(Long.valueOf(date));
 
+            Log.i("DATE",d.toString());
 
-            if (callDate.compareTo(d) > 0 && Integer.valueOf(duration) > 0) {
+        //    Log.i("duration",number + Integer.valueOf(duration).toString());
+
+            if (callDate.compareTo(d) > 0 && Integer.valueOf(duration) > 0 ) {
+                Log.i("duration",number + "    " + Long.valueOf(duration).toString());
                 if (number.length() > 10) {
                     truncatedNumber = number.substring((Math.abs(10 - number.length())), number.length());
                 } else
                     truncatedNumber = number;
-
-
                 if (map.containsKey(truncatedNumber)) {
                     CallLogs obj = map.get(truncatedNumber);
                     obj.setDuration(Integer.valueOf(duration), callDate);
@@ -127,6 +129,7 @@ public class CallLogStats extends Activity {
         try {
             billForPlans = p.minimumRate(map);
             listOfPlans.setText(billForPlans.toString());
+
             //  listOfPlans.setText(p.suggestPlan(countLessThan30,countGreaterThan30).toString());
 
         } catch (JSONException e) {

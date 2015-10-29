@@ -63,8 +63,9 @@ public class PlanGenerator {
 
     public HashMap<String,Double> minimumRate(HashMap<String,CallLogs> map) throws JSONException {
          JSONObject obj;
+        int totalDuration=0;
         int durationLessThan30=0,durationMoreThan30=0;
-        double countCall = 0.0;
+        int countCall = 0;
         Double bill;
 
         PlanGeneratorList object = new PlanGeneratorList();
@@ -73,10 +74,8 @@ public class PlanGenerator {
         for (Map.Entry<String, CallLogs> entry : map.entrySet()) {
             String key = entry.getKey();
             CallLogs callLogs = entry.getValue();
-
-            durationLessThan30 += Integer.valueOf(callLogs.getDurationLessThan30());
-
-            countCall += Math.ceil(Integer.valueOf(callLogs.getDurationMoreThan30())/60);
+            totalDuration += (Integer.valueOf(callLogs.getDurationLessThan30())+Integer.valueOf(callLogs.getDurationMoreThan30()));
+            countCall += callLogs.getTotalCalls();
 
         }
 
@@ -85,13 +84,14 @@ public class PlanGenerator {
             bill=0.0;
           obj = (JSONObject)iterator.next();
             if (obj.has("plan_type") && obj.getString("plan_type").equals("PPS")) {
-                bill += Double.valueOf(obj.getString("call_rate"))*durationLessThan30;
+                bill += (Double.valueOf(obj.getString("call_rate"))*totalDuration);
             }
             else if (obj.has("plan_type") && obj.getString("plan_type").equals("PPM")) {
-                bill += Integer.valueOf(obj.getString("call_rate"))*countCall;
+                bill += (Integer.valueOf(obj.getString("call_rate"))*countCall);
             }
 
             billsPlan.put(obj.getString("id"),bill);
+            Log.i("TOTALCALLS", String.valueOf(countCall));
         }
 
         return billsPlan;
