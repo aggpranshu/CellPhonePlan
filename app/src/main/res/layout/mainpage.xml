@@ -3,54 +3,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/phoneCarrier"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="39dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="70dp"
+            android:text="Placeholder for the Logo"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/serviceProviderLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_above="@+id/spinnerDuration"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="42dp">
+
+        <TextView
+            android:id="@+id/phoneCarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:text="Service Provider"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/datePickerLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <Button
-        android:id="@+id/dateButton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pick a date"
-        android:layout_below="@+id/phoneNumber"
-        android:layout_alignRight="@+id/phoneCarrier"
-        android:layout_marginTop="56dp" />
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/dateButton"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/dateButton"
-        android:layout_marginBottom="73dp"
-        android:text="Submit" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="58dp">
 
-    <EditText
-        android:id="@+id/phoneNumber"
+        <Button
+            android:id="@+id/dateButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneCarrier"
+            android:layout_gravity="center_horizontal"
+            android:text="Pick a date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/spinnerLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/serviceProviderLayout"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinnerDuration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/phoneCarrier"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="62dp"
-        android:ems="10"
-        android:hint="Enter Phone Number"
-        android:inputType="phone" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Number of Days for the plan to be suggested"
-        android:id="@+id/planDays"
-        android:layout_below="@+id/dateButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:spinnerMode="dialog"
+        android:layout_above="@+id/datePickerLayout"
+        android:layout_alignParentLeft="true" />
+
 
 </RelativeLayout>
