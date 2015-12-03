@@ -1,4 +1,4 @@
-package com.example.paggarwal1.cellphoneplan;
+package com.lochbridge.cellphoneplanapp.cellphoneplan;
 
 import org.junit.Test;
 

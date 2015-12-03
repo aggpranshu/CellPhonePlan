@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CellPhonePlanUpdated.iml" filepath="$PROJECT_DIR$/CellPhonePlanUpdated.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CellPhonePlan.iml" filepath="$PROJECT_DIR$/CellPhonePlan.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libmultispinner/libmultispinner.iml" filepath="$PROJECT_DIR$/libmultispinner/libmultispinner.iml" />
     </modules>
   </component>
 </project>
